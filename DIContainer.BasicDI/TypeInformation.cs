@@ -4,11 +4,6 @@ namespace DIContainer.BasicDI
 {
     public class TypeInformation
     {
-        public Type InterfaceType { get; private set; }
-        public Type ImplementationType { get; private set; }
-        public LifeCicle LifeCicle { get; private set; }
-        public object Instance { get; private set; }
-
         public TypeInformation(Type implementationType, LifeCicle lifeCicle)
         {
             ImplementationType = implementationType;
@@ -24,6 +19,11 @@ namespace DIContainer.BasicDI
             LifeCicle = lifeCicle;
             Instance = null;
         }
+
+        public Type InterfaceType { get; }
+        public Type ImplementationType { get; }
+        public LifeCicle LifeCicle { get; }
+        public object Instance { get; private set; }
 
         public void SetInstance(object obj)
         {

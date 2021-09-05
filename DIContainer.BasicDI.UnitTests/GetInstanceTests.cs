@@ -37,7 +37,7 @@ namespace DIContainer.BasicDI.UnitTests
         [Fact]
         public void Should_instantiate_concrete_type_with_concrete_dependency()
         {
-           _container.RegisterTransient<TestClassC>();
+            _container.RegisterTransient<TestClassC>();
             _container.RegisterTransient<TestClassB>();
 
             var instanceObject = _container.GetInstance<TestClassB>();
@@ -59,7 +59,7 @@ namespace DIContainer.BasicDI.UnitTests
         [Fact]
         public void Should_instantiate_interface_type_with_interface_dependency()
         {
-           _container.RegisterTransient<ITestClassC, TestInterfaceClassC>();
+            _container.RegisterTransient<ITestClassC, TestInterfaceClassC>();
             _container.RegisterTransient<ITestClassB, TestInterfaceClassB>();
 
             var instanceObject = _container.GetInstance<ITestClassB>();
@@ -82,8 +82,6 @@ namespace DIContainer.BasicDI.UnitTests
         [Fact]
         public void Should_instantiate_interface_type_with_multiple_concrete_dependencies()
         {
-           
-
             _container.RegisterTransient<ITestClassA, TestClassA>();
             _container.RegisterTransient<TestClassB>();
             _container.RegisterTransient<TestClassC>();
@@ -92,7 +90,7 @@ namespace DIContainer.BasicDI.UnitTests
 
             Assert.IsType<TestClassA>(instanceObject);
         }
-        
+
         [Fact]
         public void Should_instantiate_interface_type_with_multiple_interfaces_dependencies()
         {
@@ -104,7 +102,7 @@ namespace DIContainer.BasicDI.UnitTests
 
             Assert.IsType<TestInterfaceClassA>(instanceObject);
         }
-        
+
         [Fact]
         public void Should_instantiate_transient()
         {
@@ -112,14 +110,14 @@ namespace DIContainer.BasicDI.UnitTests
 
             var instanceObject = _container.GetInstance<ITestClassC>();
             var instanceAnotherObject = _container.GetInstance<ITestClassC>();
-            
+
             Assert.IsType<TestClassC>(instanceObject);
-            
+
             Assert.NotEqual(instanceObject.Id.ToString(), instanceAnotherObject.Id.ToString());
             Assert.NotEqual(instanceObject.Id.ToString(), Guid.Empty.ToString());
             Assert.NotEqual(instanceAnotherObject.Id.ToString(), Guid.Empty.ToString());
         }
-        
+
         [Fact]
         public void Should_instantiate_singleton()
         {
@@ -127,14 +125,14 @@ namespace DIContainer.BasicDI.UnitTests
 
             var instanceObject = _container.GetInstance<ITestClassC>();
             var instanceAnotherObject = _container.GetInstance<ITestClassC>();
-            
+
             Assert.IsType<TestClassC>(instanceObject);
-            
+
             Assert.Equal(instanceObject.Id.ToString(), instanceAnotherObject.Id.ToString());
             Assert.NotEqual(instanceObject.Id.ToString(), Guid.Empty.ToString());
             Assert.NotEqual(instanceAnotherObject.Id.ToString(), Guid.Empty.ToString());
         }
-        
+
 
         [Fact]
         public void Should_throw_UnregisteredDependencyException_when_instantiating_unregistered_type()
@@ -152,7 +150,7 @@ namespace DIContainer.BasicDI.UnitTests
 
         [Fact]
         public void Should_throw_CircularDependencyException_when_instantiating_type_with_circular_dependency()
-        {  
+        {
             _container.RegisterTransient<CircularClassA>();
             _container.RegisterTransient<CircularClassB>();
             _container.RegisterTransient<CircularClassC>();

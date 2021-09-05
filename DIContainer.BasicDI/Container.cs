@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using DIContainer.BasicDI.Exceptions;
 
 namespace DIContainer.BasicDI
@@ -69,7 +68,7 @@ namespace DIContainer.BasicDI
             return (T) GetInstance(typeof(T));
         }
 
-        object GetInstance(Type type)
+        private object GetInstance(Type type)
         {
             var typeInformation = GetType(type);
 
@@ -84,7 +83,7 @@ namespace DIContainer.BasicDI
             return typeInformation.GetInstance(parameters);
         }
 
-        void CheckIfAlreadyRegistered(Type type)
+        private void CheckIfAlreadyRegistered(Type type)
         {
             var typeToInitiate = GetType(type);
 
@@ -92,7 +91,7 @@ namespace DIContainer.BasicDI
                 throw new AlreadyRegisteredException();
         }
 
-        TypeInformation GetType(Type type)
+        private TypeInformation GetType(Type type)
         {
             if (type.IsAbstract || type.IsInterface)
                 return _myTypes.FirstOrDefault(
@@ -102,12 +101,12 @@ namespace DIContainer.BasicDI
                 x.ImplementationType.FullName == type.FullName && x.InterfaceType == null);
         }
 
-        bool IsAbstractionOrInterface(Type type)
+        private bool IsAbstractionOrInterface(Type type)
         {
             return type.IsAbstract || type.IsInterface;
         }
 
-        void CheckCircularReference(Type type)
+        private void CheckCircularReference(Type type)
         {
             if (_usedType.Any(x => x == type))
                 throw new CircularDependencyException();
@@ -119,10 +118,7 @@ namespace DIContainer.BasicDI
             {
                 var parameters = constructor.GetParameters();
 
-                foreach (var parameter in parameters)
-                {
-                    CheckCircularReference(parameter.ParameterType);
-                }
+                foreach (var parameter in parameters) CheckCircularReference(parameter.ParameterType);
             }
 
             _usedType.Remove(type);
